@@ -8,11 +8,11 @@ export ZENITY=$(command -v zenity)
 
 if [ ! -e zelda3_assets.dat ]; then
 	if [ ! -e zelda3.sfc ]; then
-		if [ -n "$ZENITY" ]; then
-            zenity --error --timeout=5 --text="Place ROM in ${SCRIPT_PATH}" --title="Missing ROM file" --width=500 --width=200
-        else
+	#if [ -n "$ZENITY" ]; then
+        #zenity --error --timeout=5 --text="Place ROM in ${SCRIPT_PATH}" --title="Missing ROM file" --width=500 --width=200
+        #else
             echo -e "\nPlace ROM in this folder\n"
-        fi	
+        #fi	
         exit
 	else
 		export ASSETDIR="$(mktemp -d /tmp/assets-XXXXX)"
