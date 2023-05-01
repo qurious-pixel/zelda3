@@ -39,7 +39,7 @@ jobs:
         chmod +x AppDir/usr/bin/zelda3
         mkdir -p AppDir/usr/assets
         cp -r {tables,other} AppDir/usr/assets/
-        "$LINUXDEPLOY" --appdir=AppDir --plugin conda --output appimage
+        $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
         mkdir uploads
         mv *.AppImage uploads
 
