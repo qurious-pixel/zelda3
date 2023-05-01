@@ -40,6 +40,8 @@ jobs:
         mkdir -p AppDir/usr/assets
         cp -r {tables,other} AppDir/usr/assets/
         cp zelda3.ini AppDir/usr/assets/
+        ls /usr/bin/zenity
+        cp /usr/bin/zenity AppDir/usr/bin/
         $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
         mkdir uploads
         mv Zelda*.AppImage uploads
