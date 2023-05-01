@@ -39,6 +39,7 @@ jobs:
         chmod +x AppDir/usr/bin/zelda3
         mkdir -p AppDir/usr/assets
         cp -r {tables,other} AppDir/usr/assets/
+        cp zelda3.ini AppDir/usr/assets/
         $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
         mkdir uploads
         mv Zelda*.AppImage uploads
