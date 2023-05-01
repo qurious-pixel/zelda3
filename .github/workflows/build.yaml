@@ -26,7 +26,7 @@ jobs:
 
     - name: Package AppImage
       run: |
-        export LINUXDEPLOY="linuxdeploy-x86_64.AppImage --appimage-extract-and-run"
+        export LINUXDEPLOY="./linuxdeploy-x86_64.AppImage --appimage-extract-and-run"
         export CONDA_PACKAGES="pyyaml;pillow"
         curl -sSflO https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
         curl -sSflO https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-conda/master/linuxdeploy-plugin-conda.sh
