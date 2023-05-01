@@ -32,6 +32,7 @@ jobs:
         curl -sSflO https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-conda/master/linuxdeploy-plugin-conda.sh
         chmod +x linuxdeploy-x86_64.AppImage
         chmod +x linuxdeploy-plugin-conda.sh
+        ls -al .
         "$LINUXDEPLOY" --appdir=AppDir
         cp zelda3 AppDir/usr/bin/
         cp platform/appimage/{AppRun,zelda3.desktop,zelda3.png} AppDir
