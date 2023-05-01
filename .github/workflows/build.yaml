@@ -41,7 +41,7 @@ jobs:
         cp -r {tables,other} AppDir/usr/assets/
         $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
         mkdir uploads
-        mv *.AppImage uploads
+        mv Zelda*.AppImage uploads
 
     - name: Upload AppImage
       uses: actions/upload-artifact@v3
