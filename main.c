@@ -55,7 +55,7 @@ static const char kWindowTitle[] = "The Legend of Zelda: A Link to the Past";
 static uint32 g_win_flags = SDL_WINDOW_RESIZABLE;
 static SDL_Window *g_window;
 
-static uint8 g_paused, g_turbo, g_replay_turbo = true, g_cursor = true;
+static uint8 g_paused, g_turbo, g_replay_turbo = true, g_cursor = false; // hide the cursor
 static uint8 g_current_window_scale;
 static uint8 g_gamepad_buttons;
 static int g_input1_state;
@@ -617,7 +617,7 @@ static void HandleCommand_Locked(uint32 j, bool pressed) {
     case kKeys_Fullscreen:
       g_win_flags ^= SDL_WINDOW_FULLSCREEN_DESKTOP;
       SDL_SetWindowFullscreen(g_window, g_win_flags & SDL_WINDOW_FULLSCREEN_DESKTOP);
-      g_cursor = !g_cursor;
+      // g_cursor = !g_cursor; // hide the cursor
       SDL_ShowCursor(g_cursor);
       break;
     case kKeys_Reset:
