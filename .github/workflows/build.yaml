@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies for Linux
       run: |
         sudo apt update
-        sudo apt install -y libsdl2-dev
+        sudo apt install -y libsdl2-dev zenity
 
     - name: Build
       run: make -j$(nproc) zelda3
