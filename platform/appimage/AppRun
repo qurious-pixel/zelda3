@@ -3,22 +3,17 @@
 SCRIPT_PATH=`dirname $(realpath $0)`/usr
 export LD_LIBRARY_PATH=${SCRIPT_PATH}/lib
 export LC_NUMERIC=en_US.UTF-8
-export ZENITY=$(command -v zenity)
-
 
 if [ ! -e zelda3_assets.dat ]; then
 	if [ ! -e zelda3.sfc ]; then
-	#if [ -n "$ZENITY" ]; then
-        #zenity --error --timeout=5 --text="Place ROM in ${SCRIPT_PATH}" --title="Missing ROM file" --width=500 --width=200
-        #else
-            echo -e "\nPlace ROM in this folder\n"
-        #fi	
+        "${SCRIPT_PATH}"/bin/notify-send -i /home/ubuntu/Pictures/testing/new_test/zelda3.png "Missing ROM file"
         exit
 	else
 		export ASSETDIR="$(mktemp -d /tmp/assets-XXXXX)"
 		cp -r "${SCRIPT_PATH}"/assets/* "$ASSETDIR"
 		ln -s "$PWD"/zelda3.sfc "$ASSETDIR"/tables/zelda3.sfc
 		cd "$ASSETDIR"/tables
+		"${SCRIPT_PATH}"/bin/notify-send -i /home/ubuntu/Pictures/testing/new_test/zelda3.png "Extracting Assets"
 		"${SCRIPT_PATH}"/bin/python3 restool.py --extract-from-rom -r zelda3.sfc 
 		cd -
 		cp "$ASSETDIR"/tables/zelda3_assets.dat .
