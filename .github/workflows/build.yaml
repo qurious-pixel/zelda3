@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies for Linux
       run: |
         sudo apt update
-        sudo apt install -y libsdl2-dev zenity
+        sudo apt install -y libsdl2-dev libnotify-bin
 
     - name: Build
       run: make -j$(nproc) zelda3
@@ -40,8 +40,7 @@ jobs:
         mkdir -p AppDir/usr/assets
         cp -r {tables,other} AppDir/usr/assets/
         cp zelda3.ini AppDir/usr/assets/
-        ls /usr/bin/zenity
-        cp /usr/bin/zenity AppDir/usr/bin/
+        cp /usr/bin/notify-send AppDir/usr/bin/
         $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
         mkdir uploads
         mv Zelda*.AppImage uploads
