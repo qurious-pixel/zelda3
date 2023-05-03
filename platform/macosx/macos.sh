@@ -23,7 +23,6 @@ cp platform/macosx/${APPNAME}Icon.png platform/macosx/${APPNAME}.iconset/icon_51
 iconutil -c icns -o platform/macosx/${APPNAME}.icns platform/macosx/${APPNAME}.iconset
 rm -r platform/macosx/${APPNAME}.iconset
 
-
 rm -rf ${APPBUNDLE}
 mkdir ${APPBUNDLE}
 mkdir ${APPBUNDLE}/Contents
@@ -33,3 +32,6 @@ cp platform/macosx/Info.plist ${APPBUNDLECONTENTS}/
 cp platform/macosx/${APPNAME}.icns ${APPBUNDLEICON}/
 cp ${APPNAME} ${APPBUNDLEEXE}/zelda3
 otool -l ${TARGET} | grep -A 2 LC_RPATH  | tail -n 1 | awk '{print $2}' | dylibbundler -od -b -x  ${APPBUNDLEEXE}/zelda3 -d ${APPBUNDLECONTENTS}/libs
+
+mkdir uploads
+cp ${APPNAME}.app uploads
