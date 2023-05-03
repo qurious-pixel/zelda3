@@ -31,7 +31,7 @@ mkdir ${APPBUNDLE}/Contents/Resources
 cp platform/macosx/Info.plist ${APPBUNDLECONTENTS}/
 cp platform/macosx/${APPNAME}.icns ${APPBUNDLEICON}/
 cp ${APPNAME} ${APPBUNDLEEXE}/zelda3
-otool -l ${TARGET} | grep -A 2 LC_RPATH  | tail -n 1 | awk '{print $2}' | dylibbundler -od -b -x  ${APPBUNDLEEXE}/zelda3 -d ${APPBUNDLECONTENTS}/libs
+otool -l ${APPNAME} | grep -A 2 LC_RPATH  | tail -n 1 | awk '{print $2}' | dylibbundler -od -b -x  ${APPBUNDLEEXE}/zelda3 -d ${APPBUNDLECONTENTS}/libs
 
 mkdir uploads
 cp -r ${APPNAME}.app uploads
