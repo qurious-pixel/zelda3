@@ -27,11 +27,15 @@ rm -rf ${APPBUNDLE}
 mkdir ${APPBUNDLE}
 mkdir ${APPBUNDLE}/Contents
 mkdir ${APPBUNDLE}/Contents/MacOS
-mkdir ${APPBUNDLE}/Contents/Resources
+mkdir -p ${APPBUNDLE}/Contents/Resources/assets
+cp -r tables ${APPBUNDLERESOURCES}/assets/
+cp -r other ${APPBUNDLERESOURCES}/assets/
 cp platform/macosx/Info.plist ${APPBUNDLECONTENTS}/
 cp platform/macosx/${APPNAME}.icns ${APPBUNDLEICON}/
-cp ${APPNAME} ${APPBUNDLEEXE}/zelda3
-otool -l ${APPNAME} | grep -A 2 LC_RPATH  | tail -n 1 | awk '{print $2}' | dylibbundler -od -b -x  ${APPBUNDLEEXE}/zelda3 -d ${APPBUNDLECONTENTS}/libs
+cp platform/macosx/${APPNAME}.sh ${APPBUNDLEEXE}/${APPNAME}.sh
+cp ${APPNAME} ${APPBUNDLEEXE}/${APPNAME}
+cp ${APPNAME}.ini ${APPBUNDLERESOURCES}
+otool -l ${APPNAME} | grep -A 2 LC_RPATH  | tail -n 1 | awk '{print $2}' | dylibbundler -od -b -x  ${APPBUNDLEEXE}/${APPNAME} -d ${APPBUNDLECONTENTS}/libs
 
 mkdir uploads
 cp -r ${APPNAME}.app uploads
