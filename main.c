@@ -12,9 +12,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 #endif
-#ifdef __APPLE__
-#include "OSXFolderManager.h"
-#endif
 
 #include "snes/ppu.h"
 
@@ -43,7 +40,6 @@ static void HandleGamepadInput(int button, bool pressed);
 static void HandleGamepadAxisInput(int gamepad_id, int axis, int value);
 static void OpenOneGamepad(int i);
 static void HandleVolumeAdjustment(int volume_adjustment);
-static void GetAppDirectoryPath();
 static void LoadAssets();
 static void SwitchDirectory();
 
@@ -807,23 +803,7 @@ static void LoadLinkGraphics() {
     free(file);
   }
 }
-
-static void GetAppDirectoryPath() {
-    #ifdef __APPLE__
-        FolderManager folderManager;
-        std::string fpath = std::string(folderManager.pathForDirectory(NSApplicationSupportDirectory, NSUserDomainMask));
-        fpath.append("/io.github.snesrev");
-        return fpath;
-    #endif
-
-    return ".";
-
-}
-
-static void GetPathRelativeToAppDirectory(const char* path) {
-    return GetAppDirectoryPath() + "/" + path;
-}
-    
+   
 const uint8 *g_asset_ptrs[kNumberOfAssets];
 uint32 g_asset_sizes[kNumberOfAssets];
 
