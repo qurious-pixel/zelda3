@@ -7,8 +7,8 @@ export ZELDA_HOME="${SNAME%zelda3*}"
 
 while [ ! -e "$ZELDA_HOME"/zelda3_assets.dat ]; do
 DROPROM=`osascript <<-EOF
-	set romFile to choose file of type {"sfc","smc"} with prompt "Please select your ROM:"
-	return POSIX path of romFile
+    set romFile to choose file of type {"sfc","smc"} with prompt "Please select your ROM:"
+    return POSIX path of romFile
 EOF`
 
 ROMNAME="$(basename $DROPROM)"
@@ -27,6 +27,8 @@ cp "$ASSETDIR"/tables/zelda3_assets.dat "$ZELDA_HOME"/
 rm -r "$ASSETDIR"
 done
 
-
+if [ ! -e "$ZELDA_HOME"/zelda3.ini ]; then
+    cp "$RESPATH"/zelda3.ini "$ZELDA_HOME"
+fi
 
 arch -x86_64 "$SNAME"/zelda3
