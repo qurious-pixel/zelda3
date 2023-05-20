@@ -24,7 +24,6 @@ iconutil -c icns -o platform/macosx/${APPNAME}.icns platform/macosx/${APPNAME}.i
 rm -r platform/macosx/${APPNAME}.iconset
 cp platform/macosx/${APPNAME}.icns .
 
-
 # Python Bundle
 cp tables/restool.py .
 python3 -m venv venv
@@ -32,7 +31,6 @@ python3 -m venv venv
 pip install --upgrade pip
 pip install py2app PILLOW pyyaml
 python platform/macosx/setup.py py2app 
-
 
 mv dist/restool.app dist/${APPBUNDLE}
 rm ${APPNAME}.icns
