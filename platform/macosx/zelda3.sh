@@ -1,14 +1,17 @@
 #!/bin/bash
 
-SNAME="$(dirname $0)"
-export RESPATH="${SNAME%/MacOS*}/Resources"
-export ZELDA_HOME="${SNAME%zelda3*}"
+SNAME="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P)"
+export RESPATH="${SNAME%%/MacOS*}/Resources"
+export ZELDA_HOME="$HOME/Library/Application Support/io.github.snesrev.Zelda3"
 
+if [ ! -e "$ZELDA_HOME" ]; then
+    mkdir "$ZELDA_HOME"
+fi
 
-while [ ! -e "$ZELDA_HOME"/zelda3_assets.dat ]; do
+if [ ! -e "$ZELDA_HOME"/zelda3_assets.dat ]; then
 DROPROM=`osascript <<-EOF
-    set romFile to choose file of type {"sfc","smc"} with prompt "Please select your ROM:"
-    return POSIX path of romFile
+	set romFile to choose file of type {"sfc","smc"} with prompt "Please select your ROM:"
+	return POSIX path of romFile
 EOF`
 
 ROMNAME="$(basename $DROPROM)"
@@ -18,17 +21,31 @@ cp -r "$RESPATH/assets/" "$ASSETDIR/"
 cp "$DROPROM" "$ASSETDIR"/tables
 cd "$ASSETDIR"/tables/
 
-osascript -e 'display notification "Generating assets.dat"'
+if [[ -z $DROPROM ]]; then
+	exit 1
+fi
 
-python restool.py --extract-from-rom -r "$ROMNAME"
+OSA=`osascript <<-EOF
+display notification "Generating OTR ..."
+EOF`
+
+"${SNAME}/"python restool.py --extract-from-rom -r "$ROMNAME"
+
+OSA=`osascript <<-EOF
+display notification "Asset extraction complete"
+EOF`
 
 cp "$ASSETDIR"/tables/zelda3_assets.dat "$ZELDA_HOME"/
-
 rm -r "$ASSETDIR"
-done
+fi
 
 if [ ! -e "$ZELDA_HOME"/zelda3.ini ]; then
     cp "$RESPATH"/zelda3.ini "$ZELDA_HOME"
 fi
 
-arch -x86_64 "$SNAME"/zelda3
+if [ ! -e "$ZELDA_HOME"/zelda3 ]; then
+    cp "$SNAME"/zelda3 "$ZELDA_HOME"
+fi
+
+cd "$ZELDA_HOME"
+arch -x86_64 ./zelda3
