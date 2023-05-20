@@ -44,6 +44,7 @@ sed -i '' 's/restool/zelda3/g' dist/${APPBUNDLECONTENTS}/Info.plist
 cp platform/macosx/${APPNAME}.icns dist/${APPBUNDLEICON}/
 cp ${APPNAME} dist/${APPBUNDLEEXE}/${APPNAME}
 cp platform/macosx/${APPNAME}.sh dist/${APPBUNDLEEXE}/${APPNAME}.sh
+chmod a+x dist/${APPBUNDLEEXE}/*
 
 mkdir uploads
 cp -r dist/${APPBUNDLE} uploads
