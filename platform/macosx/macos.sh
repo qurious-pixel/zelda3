@@ -46,5 +46,9 @@ cp ${APPNAME} dist/${APPBUNDLEEXE}/${APPNAME}
 cp platform/macosx/${APPNAME}.sh dist/${APPBUNDLEEXE}/${APPNAME}.sh
 chmod a+x dist/${APPBUNDLEEXE}/*
 
+hdiutil create dist/tmp.dmg -ov -volname "Zelda3" -fs HFS+ -srcfolder "dist/${APPBUNDLE}"
+hdiutil convert dist/tmp.dmg -format UDZO -o dist/${APPNAME}.dmg
+rm dist/tmp.dmg
+
 mkdir uploads
 cp -r dist/${APPBUNDLE} uploads
