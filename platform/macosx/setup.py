@@ -4,6 +4,7 @@ APP = ['restool.py']
 DATA_FILES = []
 OPTIONS = {
     'packages': ['PIL','yaml'],
+    'frameworks': ['/opt/local/lib/libSDL2-2.0.0.dylib'],
     'iconfile': 'zelda3.icns',
     'plist': {
         'CFBundleDevelopmentRegion': 'English',
