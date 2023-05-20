@@ -22,20 +22,28 @@ sips -z 512 512   platform/macosx/${APPNAME}Icon.png --out platform/macosx/${APP
 cp platform/macosx/${APPNAME}Icon.png platform/macosx/${APPNAME}.iconset/icon_512x512@2x.png
 iconutil -c icns -o platform/macosx/${APPNAME}.icns platform/macosx/${APPNAME}.iconset
 rm -r platform/macosx/${APPNAME}.iconset
+cp platform/macosx/${APPNAME}.icns .
 
-rm -rf ${APPBUNDLE}
-mkdir ${APPBUNDLE}
-mkdir ${APPBUNDLE}/Contents
-mkdir ${APPBUNDLE}/Contents/MacOS
-mkdir -p ${APPBUNDLE}/Contents/Resources/assets
-cp -r tables ${APPBUNDLERESOURCES}/assets/
-cp -r other ${APPBUNDLERESOURCES}/assets/
-cp platform/macosx/Info.plist ${APPBUNDLECONTENTS}/
-cp platform/macosx/${APPNAME}.icns ${APPBUNDLEICON}/
-cp platform/macosx/${APPNAME}.sh ${APPBUNDLEEXE}/${APPNAME}.sh
-cp ${APPNAME} ${APPBUNDLEEXE}/${APPNAME}
-cp ${APPNAME}.ini ${APPBUNDLERESOURCES}
-otool -l ${APPNAME} | grep -A 2 LC_RPATH  | tail -n 1 | awk '{print $2}' | dylibbundler -od -b -x  ${APPBUNDLEEXE}/${APPNAME} -d ${APPBUNDLECONTENTS}/libs
+
+# Python Bundle
+cp tables/restool.py .
+python3 -m venv venv
+. venv/bin/activate
+pip install --upgrade pip
+pip install py2app PILLOW pyyaml
+python platform/macosx/setup.py py2app 
+
+
+mv dist/restool.app dist/${APPBUNDLE}
+rm ${APPNAME}.icns
+mkdir dist/${APPBUNDLERESOURCES}/assets
+cp -r {tables,other} dist/${APPBUNDLERESOURCES}/assets/
+mv dist/${APPBUNDLERESOURCES}/lib/python3*/{PIL,yaml} dist/${APPBUNDLERESOURCES}/assets/tables
+cp zelda3.ini dist/${APPBUNDLERESOURCES}/
+sed -i '' 's/restool/zelda3/g' dist/${APPBUNDLECONTENTS}/Info.plist
+cp platform/macosx/${APPNAME}.icns dist/${APPBUNDLEICON}/
+cp ${APPNAME} dist/${APPBUNDLEEXE}/${APPNAME}
+cp platform/macosx/${APPNAME}.sh dist/${APPBUNDLEEXE}/${APPNAME}.sh
 
 mkdir uploads
-cp -r ${APPNAME}.app uploads
+cp -r dist/${APPBUNDLE} uploads
