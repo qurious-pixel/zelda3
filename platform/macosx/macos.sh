@@ -49,4 +49,5 @@ hdiutil convert dist/tmp.dmg -format UDZO -o dist/${APPNAME}.dmg
 rm dist/tmp.dmg
 
 mkdir uploads
-cp -r dist/${APPBUNDLE} uploads
+cp dist/${APPNAME}.dmg uploads
+#cp -r dist/${APPBUNDLE}.dmg uploads
