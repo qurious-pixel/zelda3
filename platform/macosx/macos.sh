@@ -41,6 +41,7 @@ cp zelda3.ini dist/${APPBUNDLERESOURCES}/
 sed -i '' 's/restool/zelda3/g' dist/${APPBUNDLECONTENTS}/Info.plist
 cp platform/macosx/${APPNAME}.icns dist/${APPBUNDLEICON}/
 cp ${APPNAME} dist/${APPBUNDLEEXE}/${APPNAME}
+install_name_tool -change /usr/local/opt/sdl2/lib/libSDL2-2.0.0.dylib @executable_path/../Frameworks/libSDL2-2.0.0.dylib dist/${APPBUNDLEEXE}/${APPNAME}
 cp platform/macosx/${APPNAME}.sh dist/${APPBUNDLEEXE}/${APPNAME}.sh
 chmod a+x dist/${APPBUNDLEEXE}/*
 
