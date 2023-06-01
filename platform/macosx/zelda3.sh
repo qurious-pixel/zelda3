@@ -29,7 +29,7 @@ OSA=`osascript <<-EOF
 display notification "Generating OTR ..."
 EOF`
 
-"${SNAME}/"python restool.py --extract-from-rom -r "$ROMNAME"
+"${SNAME}"/python restool.py --extract-from-rom -r "$ROMNAME"
 
 OSA=`osascript <<-EOF
 display notification "Asset extraction complete"
@@ -44,4 +44,4 @@ if [ ! -e "$ZELDA_HOME"/zelda3.ini ]; then
 fi
 
 cd --
-arch -x86_64 "$SNAME"/zelda3
+arch -x86_64 "$SNAME"/zelda3 --config "$ZELDA_HOME/zelda3.ini"
