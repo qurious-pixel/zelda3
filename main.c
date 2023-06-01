@@ -43,6 +43,10 @@ static void HandleVolumeAdjustment(int volume_adjustment);
 static void LoadAssets();
 static void SwitchDirectory();
 
+// Paths 
+const char *sys_user_path(void);
+#define SYS_MAX_PATH 1024
+
 enum {
   kDefaultFullscreen = 0,
   kMaxWindowScale = 10,
@@ -803,13 +807,34 @@ static void LoadLinkGraphics() {
     free(file);
   }
 }
-   
+
+const char *sys_user_path(void) {
+    static char path[SYS_MAX_PATH] = { 0 };
+
+    // get the new pref path from SDL
+    char *sdlpath = SDL_GetPrefPath("", "zelda3");
+    if (sdlpath) {
+        const unsigned int len = strlen(sdlpath);
+        strncpy(path, sdlpath, sizeof(path));
+        path[sizeof(path)-1] = 0;
+
+        SDL_free(sdlpath);
+
+        if (path[len-1] == '/' || path[len-1] == '\\')
+            path[len-1] = 0; // strip the trailing separator
+    }
+    return path;
+}
+
 const uint8 *g_asset_ptrs[kNumberOfAssets];
 uint32 g_asset_sizes[kNumberOfAssets];
 
 static void LoadAssets() {
   size_t length = 0;
-  uint8 *data = ReadWholeFile("tables/zelda3_assets.dat", &length);
+  const char *userpath = sys_user_path();
+  char userfile[SYS_MAX_PATH];
+  sprintf(userfile, "%s%s", userpath, "/zelda3_assets.dat");
+  uint8 *data = ReadWholeFile(userfile, &length);
   if (!data)
     data = ReadWholeFile("zelda3_assets.dat", &length);
   if (!data) Die("Failed to read zelda3_assets.dat. Please see the README for information about how you get this file.");
