@@ -812,7 +812,7 @@ const char *sys_user_path(void) {
     static char path[SYS_MAX_PATH] = { 0 };
 
     // get the new pref path from SDL
-    char *sdlpath = SDL_GetPrefPath("", "zelda3");
+    char *sdlpath = SDL_GetPrefPath("", "io.github.snesrev.Zelda3");
     if (sdlpath) {
         const unsigned int len = strlen(sdlpath);
         strncpy(path, sdlpath, sizeof(path));
