@@ -43,9 +43,5 @@ if [ ! -e "$ZELDA_HOME"/zelda3.ini ]; then
     cp "$RESPATH"/zelda3.ini "$ZELDA_HOME"
 fi
 
-if [ ! -e "$ZELDA_HOME"/zelda3 ]; then
-    cp "$SNAME"/zelda3 "$ZELDA_HOME"
-fi
-
-cd "$ZELDA_HOME"
-arch -x86_64 ./zelda3
+cd --
+arch -x86_64 "$SNAME"/zelda3
