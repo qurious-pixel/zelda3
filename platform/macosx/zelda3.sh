@@ -3,6 +3,7 @@
 SNAME="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P)"
 export RESPATH="${SNAME%%/MacOS*}/Resources"
 export ZELDA_HOME="$HOME/Library/Application Support/io.github.snesrev.Zelda3"
+export PYTHONHOME="$RESPATH"
 
 if [ ! -e "$ZELDA_HOME" ]; then
     mkdir "$ZELDA_HOME"
@@ -29,7 +30,7 @@ OSA=`osascript <<-EOF
 display notification "Generating OTR ..."
 EOF`
 
-"${SNAME}"/python restool.py --extract-from-rom -r "$ROMNAME"
+"$SNAME"/python restool.py --extract-from-rom -r "$ROMNAME"
 
 OSA=`osascript <<-EOF
 display notification "Asset extraction complete"
