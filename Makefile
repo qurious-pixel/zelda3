@@ -16,7 +16,7 @@ endif
 
 .PHONY: all clean clean_obj clean_gen
 
-all: $(TARGET_EXEC) tables/zelda3_assets.dat
+all: $(TARGET_EXEC) zelda3_assets.dat
 $(TARGET_EXEC): $(OBJS) $(RES)
 	$(CC) $^ -o $@ $(LDFLAGS) $(SDLFLAGS)
 %.o : %.c
@@ -26,13 +26,14 @@ $(RES): platform/win32/zelda3.rc
 	@echo "Generating Windows resources"
 	@$(WINDRES) $< -O coff -o $@
 
-tables/zelda3_assets.dat:
+zelda3_assets.dat:
 	@echo "Extracting game resources"
 	@cd tables; $(PYTHON) restool.py --extract-from-rom -r ../$(ROM)
+	@mv tables/zelda3_assets.dat ./zelda3_assets.dat
 
 clean: clean_obj clean_gen
 clean_obj:
 	@$(RM) $(OBJS) $(TARGET_EXEC)
 clean_gen:
-	@$(RM) $(RES) tables/zelda3_assets.dat tables/*.txt tables/*.png tables/sprites/*.png tables/*.yaml
+	@$(RM) $(RES) zelda3_assets.dat tables/*.txt tables/*.png tables/sprites/*.png tables/*.yaml
 	@rm -rf tables/__pycache__ tables/dungeon tables/img tables/overworld tables/sound
