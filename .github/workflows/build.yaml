@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies for Linux
       run: |
         sudo apt update
-        sudo apt install -y libsdl2-dev libnotify-bin
+        sudo apt install -y libsdl2-dev libnotify-bin zenity
 
     - name: Build
       run: make -j$(nproc) zelda3
