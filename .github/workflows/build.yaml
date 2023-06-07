@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-unix:
-    name: Zelda3
+    name: Launcher
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
@@ -30,6 +30,6 @@ jobs:
     - name: Upload AppImage
       uses: actions/upload-artifact@v3
       with:
-        name: Zelda3
+        name: SNESREV_Launcher
         path: uploads/
         
