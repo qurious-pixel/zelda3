@@ -1,11 +1,21 @@
 #!/bin/bash
 
 SCRIPT_PATH=`dirname $(realpath $0)`/usr
-#export LD_LIBRARY_PATH=${SCRIPT_PATH}/lib
+#export LD_LIBRARY_PATH="${SCRIPT_PATH}/lib"
 export LC_NUMERIC=en_US.UTF-8
 export ZELDA_ROM=$(shasum *.s[mf]c | grep -i 6D4F10A8B10E10DBE624CB23CF03B88BB8252973 | awk '{ print $2 }')
 export LANG_ROM=$(shasum *.s[mf]c | awk ' { print $2 }' | sed '/zelda3.sfc/ d')
 export LANG_ROM_HASH=$(shasum *.s[mf]c | awk '{ print toupper($1) }' | sed '/6D4F10A8B10E10DBE624CB23CF03B88BB8252973/I d')
+export SM_ROM=$(shasum *.s[mf]c | grep -i DA957F0D63D14CB441D215462904C4FA8519C613 | awk '{ print $2 }')
+export SMW_ROM=$(shasum *.s[mf]c | grep -i 553CF42F35ACF63028A369608742BB5B913C103F | awk '{ print $2 }')
+export SMAS_ROM=$(shasum *.s[mf]c | grep -i C05817C5B7DF2FBFE631563E0B37237156A8F6B6 | awk '{ print $2 }')
+export SMB1_ROM=$(shasum *.s[mf]c | grep -i 4A5278150F3395419D68CB02A42F7C3C62CDF8B4 | awk '{ print $2 }')
+export SMLL_ROM=$(shasum *.s[mf]c | grep -i 493E14812AF7A92D0EACF00BA8BB6D3A266302CA | awk '{ print $2 }')
+export SMAS_ROM_HASH=$(shasum *.s[mf]c | awk '{ print toupper($1) }') 
+
+zenity_select(){
+	"${SCRIPT_PATH}"/bin/zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "Zelda3" FALSE "Super Metroid" FALSE "Super Mario World" FALSE "Super Mario All-Stars"
+}
 
 extract_language () {
 	sed -i 's/# Language/Language/g' "$ASSETDIR"/zelda3.ini
@@ -15,6 +25,7 @@ extract_language () {
 	"${SCRIPT_PATH}"/bin/python3 restool.py --languages="$1"
 }
 
+zelda_extract () {
 if [ ! -e zelda3_assets.dat ]; then
 	if [ ! -e "$ZELDA_ROM" ]; then
         "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
@@ -82,5 +93,86 @@ if [ ! -e zelda3.ini ]; then
 fi
 
 "${SCRIPT_PATH}"/bin/zelda3 $@
+}
+
+sm_extract () {
+if [ ! -e "$SM_ROM" ]; then
+    "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+    exit
+fi
+if [ ! -e sm.ini ]; then
+	cp "${SCRIPT_PATH}"/assets/sm.ini .
+fi
+
+"${SCRIPT_PATH}"/bin/sm $@
+}
+
+smw_extract () {
+if [ ! -e "$SMW_ROM" ]; then
+    "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+    exit
+fi
+if [ ! -e smw.ini ]; then
+	cp "${SCRIPT_PATH}"/assets/smw.ini .
+fi
+
+"${SCRIPT_PATH}"/bin/smw $@
+}
+
+smas_extract () {
+export SMASF=$("${SCRIPT_PATH}"/bin/zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "SMB1" FALSE "SMLL")
+if [ ! -e smb1.sfc ] || [ ! -e smbll.sfc ]; then
+	if [ ! -e "$SMAS_ROM" ]; then
+		"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+    	exit
+    fi
+	export ASSETDIR="$(mktemp -d /tmp/assets-XXXXX)"
+	cp -r "${SCRIPT_PATH}"/assets/smb "$ASSETDIR"
+	ln -s "$PWD"/"$SMAS_ROM" "$ASSETDIR"/smas.sfc
+	cd "$ASSETDIR"/smb
+	"${SCRIPT_PATH}"/bin/python3 extract.py
+	cd -
+	cp "$ASSETDIR"/smb/{smb1.sfc,smbll.sfc} .
+	rm -r "$ASSETDIR"
+fi
+
+if [ ! -e smw.ini ]; then
+	cp "${SCRIPT_PATH}"/assets/smw.ini .
+fi
+
+if [ "$SMASF" == SMB1 ];then
+	echo "$SMASF"
+	export SMAS=smb1.sfc
+else
+	export SMAS=smbll.sfc
+	echo "$SMASF"
+fi
+echo "$SMAS"
+"${SCRIPT_PATH}"/bin/smw "$SMAS"
+}
+
+export ZENCHOICE="$(zenity_select)"
+
+case "$ZENCHOICE" in
+	"Zelda3")
+		echo Zelda3
+		zelda_extract
+		;;
+	"Super Metroid")
+		echo "Super Metroid"
+		sm_extract
+		;;
+	"Super Mario World")
+		echo "Super Mario World"
+		smw_extract
+		;;
+	"Super Mario All-Stars")
+		echo "Super Mario All-Stars"
+		smas_extract 
+		;;
+	*)
+		echo "No Choice"
+		;;
+esac
 
 exit
