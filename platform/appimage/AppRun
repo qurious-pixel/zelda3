@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_PATH=`dirname $(realpath $0)`/usr
-export LD_LIBRARY_PATH=${SCRIPT_PATH}/lib
+#export LD_LIBRARY_PATH=${SCRIPT_PATH}/lib
 export LC_NUMERIC=en_US.UTF-8
 export ZELDA_ROM=$(shasum *.s[mf]c | grep -i 6D4F10A8B10E10DBE624CB23CF03B88BB8252973 | awk '{ print $2 }')
 export LANG_ROM=$(shasum *.s[mf]c | awk ' { print $2 }' | sed '/zelda3.sfc/ d')
