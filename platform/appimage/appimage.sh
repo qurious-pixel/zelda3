@@ -8,6 +8,7 @@ chmod +x linuxdeploy-x86_64.AppImage
 chmod +x linuxdeploy-plugin-conda.sh
 $LINUXDEPLOY --appdir=AppDir
 cp {zelda3,sm,smw} AppDir/usr/bin/
+cp /usr/bin/zenity AppDir/usr/bin/
 cp platform/appimage/{AppRun,zelda3.desktop,zelda3.png} AppDir
 chmod +x AppDir/AppRun
 chmod +x AppDir/usr/bin/zelda3
