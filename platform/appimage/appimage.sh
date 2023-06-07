@@ -17,4 +17,4 @@ cp {sm.ini,smw.ini,zelda3.ini} AppDir/usr/assets/
 cp /usr/bin/notify-send AppDir/usr/bin/
 $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
 mkdir uploads
-mv Zelda*.AppImage uploads
+mv Zelda*.AppImage uploads/Launcher.AppImage
