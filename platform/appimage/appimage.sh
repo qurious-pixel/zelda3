@@ -2,7 +2,6 @@
 
 export LINUXDEPLOY="./linuxdeploy-x86_64.AppImage --appimage-extract-and-run"
 export CONDA_PACKAGES="pyyaml;pillow"
-export PIP_REQUIREMENTS="zenity"
 curl -sSfLO https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 curl -sSfLO https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-conda/master/linuxdeploy-plugin-conda.sh
 chmod +x linuxdeploy-x86_64.AppImage
