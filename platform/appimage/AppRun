@@ -14,7 +14,7 @@ export SMLL_ROM=$(shasum *.s[mf]c | grep -i 493E14812AF7A92D0EACF00BA8BB6D3A2663
 export SMAS_ROM_HASH=$(shasum *.s[mf]c | awk '{ print toupper($1) }') 
 
 zenity_select(){
-	"${SCRIPT_PATH}"/bin/zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "Zelda3" FALSE "Super Metroid" FALSE "Super Mario World" FALSE "Super Mario All-Stars"
+	zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "Zelda3" FALSE "Super Metroid" FALSE "Super Mario World" FALSE "Super Mario All-Stars" --height=250 --width=400
 }
 
 extract_language () {
@@ -120,7 +120,7 @@ fi
 }
 
 smas_extract () {
-export SMASF=$("${SCRIPT_PATH}"/bin/zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "SMB1" FALSE "SMLL")
+export SMASF=$(zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "SMB1" FALSE "SMLL")
 if [ ! -e smb1.sfc ] || [ ! -e smbll.sfc ]; then
 	if [ ! -e "$SMAS_ROM" ]; then
 		"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
