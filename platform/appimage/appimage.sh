@@ -11,7 +11,7 @@ cp {zelda3,sm,smw} AppDir/usr/bin/
 cp /usr/bin/zenity AppDir/usr/bin/
 cp platform/appimage/{AppRun,zelda3.desktop,zelda3.png} AppDir
 chmod +x AppDir/AppRun
-chmod +x AppDir/usr/bin/zelda3
+chmod +x AppDir/usr/bin/{zelda3,sm,smw}
 mkdir -p AppDir/usr/assets
 cp -r {tables,other,smb} AppDir/usr/assets/
 cp {sm.ini,smw.ini,zelda3.ini} AppDir/usr/assets/
