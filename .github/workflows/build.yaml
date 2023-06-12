@@ -24,7 +24,8 @@ jobs:
         pwd
         cd -
         mkdir uploads
-        cp platform/switch/zelda3{.nro,.ini} uploads
+        ls -al platform/switch
+        cp platform/switch/zelda3.{nro,ini} uploads
         
     - name: Upload AppImage
       uses: actions/upload-artifact@v3
