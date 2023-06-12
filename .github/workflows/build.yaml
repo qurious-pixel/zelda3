@@ -20,18 +20,14 @@ jobs:
       run: |
         cd platform/switch
         make
-        ls -al
-        pwd
         cd -
         mkdir uploads
-        mkdir test
         ls -al platform/switch
-        cp platform/switch/zelda3.nro uploads
-        cp platform/switch/zelda3.ini uploads
-        cp /__w/zelda3/zelda3/platform/switch/zelda3.{nro,ini} test || true
+        cp platform/switch/{zelda3.nro,zelda3.ini} uploads
+        #cp platform/switch/zelda3.ini uploads
         
     - name: Upload AppImage
       uses: actions/upload-artifact@v3
       with:
-        name: Zelda3
+        name: Zelda3-switch
         path: uploads/
