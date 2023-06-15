@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rom: [smw,smb1,smbll]
+        rom: [smw] #,smb1,smbll]
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkita64:latest
@@ -26,11 +26,11 @@ jobs:
       run: git config --global --add safe.directory '*'
     - name: Build ${{ matrix.rom }} switch
       run: |
-        SWITCH_MAKE=src/platform/switch
+        set -x
         mkdir -p uploads/${{ matrix.rom }}
         sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' src/main.c
-        cd $SWITCH_MAKE
-        sed "s/smw/${{ matrix.rom }}/g"  > Makefile.${{ matrix.rom }}
+        cd src/platform/switch
+        sed "s/smw/${{ matrix.rom }}/g" Makefile > Makefile.${{ matrix.rom }}
         make -f Makefile.${{ matrix.rom }}
         cd -
         ls -al src/platform/switch
