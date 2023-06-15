@@ -9,25 +9,32 @@ on:
 
 jobs:
   build-switch:
+    strategy:
+      matrix:
+        rom: [smb,smb1,smbll]
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkita64:latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        repository: snesrev/smw
+        ref: main
     - name: Fix dubious ownership error
       run: git config --global --add safe.directory '*'
-    - name: Build Zelda3 switch
+    - name: Build ${{ matrix.rom }} switch
       run: |
-        cd platform/switch
-        make
-        cd -
-        mkdir uploads
-        ls -al platform/switch
-        cp platform/switch/{zelda3.nro,zelda3.ini} uploads
-        #cp platform/switch/zelda3.ini uploads
+        SWITCH_MAKE=src/platform/switch/Makefile
+        mkdir -p uploads/${{ matrix.rom }}
+        sed "s/smw/${{ matrix.rom }}/g" $SWITCH_MAKE > $SWITCH_MAKE.${{ matrix.rom }}
+        sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' main.c
+        make -f $SWITCH_MAKE.${{ matrix.rom }}     
+        ls -al src/platform/switch
+        cp src/platform/switch/${{ matrix.rom }}.nro uploads/${{ matrix.rom }}
+        cp src/platform/switch/smw.ini uploads/${{ matrix.rom }}
         
-    - name: Upload AppImage
+    - name: Upload ${{ matrix.rom }}-switch
       uses: actions/upload-artifact@v3
       with:
-        name: Zelda3-switch
-        path: uploads/
+        name: ${{ matrix.rom }}-switch
+        path: uploads/${{ matrix.rom }}
