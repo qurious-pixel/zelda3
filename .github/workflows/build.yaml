@@ -11,7 +11,7 @@ jobs:
   build-switch:
     strategy:
       matrix:
-        rom: [smb,smb1,smbll]
+        rom: [smw,smb1,smbll]
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkita64:latest
@@ -27,7 +27,7 @@ jobs:
         SWITCH_MAKE=src/platform/switch/Makefile
         mkdir -p uploads/${{ matrix.rom }}
         sed "s/smw/${{ matrix.rom }}/g" $SWITCH_MAKE > $SWITCH_MAKE.${{ matrix.rom }}
-        sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' main.c
+        sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' src/main.c
         make -f $SWITCH_MAKE.${{ matrix.rom }}     
         ls -al src/platform/switch
         cp src/platform/switch/${{ matrix.rom }}.nro uploads/${{ matrix.rom }}
