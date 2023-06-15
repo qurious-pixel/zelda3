@@ -10,6 +10,7 @@ on:
 jobs:
   build-switch:
     strategy:
+      fail-fast: false
       matrix:
         rom: [smw,smb1,smbll]
     runs-on: ubuntu-latest
@@ -20,6 +21,7 @@ jobs:
       with:
         repository: snesrev/smw
         ref: main
+        submodules: recursive
     - name: Fix dubious ownership error
       run: git config --global --add safe.directory '*'
     - name: Build ${{ matrix.rom }} switch
