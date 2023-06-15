@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rom: [smw,smb1,smbll]
+        rom: [smw] #,smb1,smbll]
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkita64:latest
@@ -28,10 +28,11 @@ jobs:
       run: |
         set -x
         mkdir -p uploads/${{ matrix.rom }}
-        sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' src/main.c
+        #sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' src/main.c
         cd src/platform/switch
-        sed "s/smw/${{ matrix.rom }}/g" Makefile > Makefile.${{ matrix.rom }}
-        make -f Makefile.${{ matrix.rom }}
+        #sed "s/smw/${{ matrix.rom }}/g" Makefile > Makefile.${{ matrix.rom }}
+        #make -f Makefile.${{ matrix.rom }}
+        make
         cd -
         ls -al src/platform/switch
         cp src/platform/switch/${{ matrix.rom }}.nro uploads/${{ matrix.rom }}
