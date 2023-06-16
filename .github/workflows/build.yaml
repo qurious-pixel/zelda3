@@ -22,19 +22,12 @@ jobs:
     - name: Build Switch Example #1
       run: |
         cd fs/sdmc
-        sed -i 's/("")/(".")/g' source/main.c
+        sed -i 's/("")/("\/switch\/smw")/g' source/main.c
         make
         cd -
         mkdir uploads
         ls -al fs/sdmc
         cp -r fs/sdmc uploads
-    - name: Build Switch Example #2
-      run: |
-        cd fs/romfs
-        make
-        cd -
-        ls -al fs/romfs
-        cp -r fs/romfs uploads
         
     - name: Upload Examples
       uses: actions/upload-artifact@v3
