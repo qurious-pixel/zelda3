@@ -14,20 +14,23 @@ jobs:
       image: devkitpro/devkita64:latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        repository: switchbrew/switch-examples
+        ref: master
     - name: Fix dubious ownership error
       run: git config --global --add safe.directory '*'
-    - name: Build Zelda3 switch
+    - name: Build Switch Examples
       run: |
-        cd platform/switch
+        cd fs/sdmc
         make
         cd -
         mkdir uploads
         ls -al platform/switch
-        cp platform/switch/{zelda3.nro,zelda3.ini} uploads
+        cp -r fs/sdmc uploads
         #cp platform/switch/zelda3.ini uploads
         
-    - name: Upload AppImage
+    - name: Upload Examples
       uses: actions/upload-artifact@v3
       with:
-        name: Zelda3-switch
+        name: Examples
         path: uploads/
