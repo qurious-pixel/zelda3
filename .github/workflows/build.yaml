@@ -25,7 +25,7 @@ jobs:
         make
         cd -
         mkdir uploads
-        ls -al platform/switch
+        ls -al fs/sdmc
         cp -r fs/sdmc uploads
         #cp platform/switch/zelda3.ini uploads
         
