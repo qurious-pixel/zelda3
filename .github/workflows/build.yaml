@@ -22,7 +22,7 @@ jobs:
     - name: Build Switch Example #1
       run: |
         cd fs/sdmc
-        sed -i 's/("")/(".")/g' main.c
+        sed -i 's/("")/(".")/g' source/main.c
         make
         cd -
         mkdir uploads
