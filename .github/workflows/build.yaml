@@ -33,7 +33,6 @@ jobs:
         cd fs/romfs
         make
         cd -
-        mkdir uploads
         ls -al fs/romfs
         cp -r fs/romfs uploads
         
