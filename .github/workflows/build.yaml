@@ -19,15 +19,23 @@ jobs:
         ref: master
     - name: Fix dubious ownership error
       run: git config --global --add safe.directory '*'
-    - name: Build Switch Examples
+    - name: Build Switch Example #1
       run: |
         cd fs/sdmc
+        sed -i 's/("")/(".")/g' main.c
         make
         cd -
         mkdir uploads
         ls -al fs/sdmc
         cp -r fs/sdmc uploads
-        #cp platform/switch/zelda3.ini uploads
+    - name: Build Switch Example #2
+      run: |
+        cd fs/romfs
+        make
+        cd -
+        mkdir uploads
+        ls -al fs/romfs
+        cp -r fs/romfs uploads
         
     - name: Upload Examples
       uses: actions/upload-artifact@v3
