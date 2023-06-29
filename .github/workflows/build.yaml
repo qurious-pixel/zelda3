@@ -12,35 +12,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rom: [smw] #,smb1,smbll]
-    runs-on: ubuntu-latest
-    container:
-      image: devkitpro/devkita64:latest
+        os: [ubuntu-latest] #,windows-latest,macos-latest]
+    runs-on: ${{ matrix.os }}
+    #container:
+    #  image: devkitpro/devkita64:latest
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: snesrev/smw
-        ref: main
+        repository: LaserEyess/sm
+        ref: cmake
         submodules: recursive
     - name: Fix dubious ownership error
       run: git config --global --add safe.directory '*'
-    - name: Build ${{ matrix.rom }} switch
+    - name: Build ${{ matrix.os }} sm
       run: |
-        set -x
-        mkdir -p uploads/${{ matrix.rom }}
-        #sed -i 's/smw.sfc/${{ matrix.rom }}.sfc/g' src/main.c
-        cd src/platform/switch
-        #sed "s/smw/${{ matrix.rom }}/g" Makefile > Makefile.${{ matrix.rom }}
-        #make -f Makefile.${{ matrix.rom }}
-        make
-        cd -
-        ls -al src/platform/switch
-        cp src/platform/switch/${{ matrix.rom }}.nro uploads/${{ matrix.rom }}
-        cp src/platform/switch/${{ matrix.rom }}.nacp uploads/${{ matrix.rom }}
-        cp src/platform/switch/smw.ini uploads/${{ matrix.rom }}
+        cmake -H. -Bbuild
+        cmake --build build
+        ls -al build        
         
-    - name: Upload ${{ matrix.rom }}-switch
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.rom }}-switch
-        path: uploads/${{ matrix.rom }}
+    #- name: Upload sm
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: ${{ matrix.rom }}-switch
+    #    path: uploads/${{ matrix.rom }}
