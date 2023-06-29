@@ -13,9 +13,20 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest] #,windows-latest,macos-latest]
+        include:
+          - os: ubuntu-latest
+            name: ubuntu
+          - os: ubuntu-latest
+            name: switch
+          - os: windows-latest
+            name: windows
+          - os: macos-latest
+            name: macos
+
     runs-on: ${{ matrix.os }}
     #container:
     #  image: devkitpro/devkita64:latest
+    #if: ${{ matrix.name == switch }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -26,11 +37,13 @@ jobs:
       run: git config --global --add safe.directory '*'
     - name: Install Deps
       run: sudo apt install libsdl2-dev
-    - name: Build ${{ matrix.os }} sm
+    - name: Build ${{ matrix.name }} sm
       run: |
         cmake -H. -Bbuild
         cmake --build build
-        ls -al build        
+        ls -al build
+        mkdir uploads
+        cp build/sm uploads
         
     #- name: Upload sm
     #  uses: actions/upload-artifact@v3
