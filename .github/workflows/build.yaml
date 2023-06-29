@@ -24,6 +24,8 @@ jobs:
         submodules: recursive
     - name: Fix dubious ownership error
       run: git config --global --add safe.directory '*'
+    - name: Install Deps
+      run: sudo apt install libsdl2-dev
     - name: Build ${{ matrix.os }} sm
       run: |
         cmake -H. -Bbuild
