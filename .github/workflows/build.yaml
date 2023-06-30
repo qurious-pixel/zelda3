@@ -22,7 +22,7 @@ jobs:
           #  toolchain: /opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
-            toolchain: D:/a/zelda3/zelda3/vcpkg/scripts/buildsystems/vcpkg.cmake
+            toolchain: vcpkg/scripts/buildsystems/vcpkg.cmake
           #- os: macos-latest
           #  name: macos
 
@@ -51,7 +51,7 @@ jobs:
       run: |
         git clone https://github.com/microsoft/vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg install sdl2 --triplet x64-windows
+        .\vcpkg\vcpkg install sdl2 --triplet x64-windows-static
         #get-content CMakeLists.txt | %{$_ -replace "REQUIRED COMPONENTS SDL2-static","CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
@@ -63,8 +63,6 @@ jobs:
         #cp build/sm* uploads
         #cp sm.ini uploads
         #ls -al uploads
-      env:
-        VCPKG_ROOT: "${{github.workspace}}/vcpkg"
     #- name: Upload sm
     #  uses: actions/upload-artifact@v3
     #  with:
