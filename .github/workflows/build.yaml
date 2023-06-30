@@ -22,7 +22,7 @@ jobs:
           #  toolchain: /opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
-            toolchain: ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+            toolchain: D:/a/zelda3/zelda3/vcpkg/scripts/buildsystems/vcpkg.cmake
           #- os: macos-latest
           #  name: macos
 
