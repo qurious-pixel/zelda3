@@ -54,13 +54,13 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
         cmake --build build
-        ls -al build
-        mkdir uploads
-        cp build/sm* uploads
-        cp sm.ini uploads
-        ls -al uploads
+        #ls -al build
+        #mkdir uploads
+        #cp build/sm* uploads
+        #cp sm.ini uploads
+        #ls -al uploads
         
     #- name: Upload sm
     #  uses: actions/upload-artifact@v3
