@@ -12,21 +12,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest] #,windows-latest,macos-latest]
+        name: [linux, switch] #-latest] #,windows-latest,macos-latest]
         include:
-          - os: ubuntu-latest
-            name: ubuntu
-          - os: ubuntu-latest
-            name: switch
+          - name: linux
+            os: ubuntu-latest
+          - name: switch
+            os: ubuntu-latest
           #- os: windows-latest
           #  name: windows
           #- os: macos-latest
           #  name: macos
 
     runs-on: ${{ matrix.os }}
-    #container:
-    #  image: devkitpro/devkita64:latest
-    #if: ${{ matrix.name == switch }}
+    container:
+      image: devkitpro/devkita64:latest
+    if: ${{ matrix.name == switch }}
     steps:
     - uses: actions/checkout@v3
       with:
