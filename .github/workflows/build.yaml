@@ -19,6 +19,7 @@ jobs:
           - name: switch
             os: ubuntu-latest
             container: devkitpro/devkita64:latest
+            toolchain: /opt/devkitpro/cmake/Switch.cmake
           #- os: windows-latest
           #  name: windows
           #- os: macos-latest
@@ -35,7 +36,10 @@ jobs:
         ref: cmake
         submodules: recursive
     - name: Fix dubious ownership error
-      run: git config --global --add safe.directory '*'
+      run: |
+        git config --global --add safe.directory '*'
+        sed -i 's/3.22/3.18/g' CMakeLists.txt
+      if: ${{ matrix.name == 'switch' }}
     - name: Install Deps ${{ matrix.name }}
       run: sudo apt install libsdl2-dev
       if: ${{ matrix.name == 'linux' }}
@@ -44,14 +48,16 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -H. -Bbuild
+        cmake -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
         cmake --build build
         ls -al build
         mkdir uploads
-        cp build/sm uploads
+        cp build/sm* uploads
+        cp sm.ini uploads
+        ls -al uploads
         
     #- name: Upload sm
     #  uses: actions/upload-artifact@v3
     #  with:
-    #    name: ${{ matrix.rom }}-switch
-    #    path: uploads/${{ matrix.rom }}
+    #    name: sm-${{ matrix.name }}
+    #    path: uploads/
