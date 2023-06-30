@@ -56,7 +56,7 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DSDL2_DIR=vcpkg/installed/x64-windows/share/sdl2
         cmake --build build
         #ls -al build
         #mkdir uploads
