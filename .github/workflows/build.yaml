@@ -52,11 +52,11 @@ jobs:
         git clone https://github.com/microsoft/vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
         .\vcpkg\vcpkg install sdl2 --triplet x64-windows
-        .\vcpkg\vcpkg integrate install
+        get-content CMakeLists.txt | %{$_ -replace "SDL2 REQUIRED","SDL2 CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DSDL2_DIR=D:/a/zelda3/zelda3/vcpkg/installed/x64-windows/share/sdl2
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
         cmake --build build
         #ls -al build
         #mkdir uploads
