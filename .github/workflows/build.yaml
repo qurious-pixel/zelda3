@@ -51,12 +51,12 @@ jobs:
       run: |
         git clone https://github.com/microsoft/vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg install sdl2 --triplet x64-windows-static
+        .\vcpkg\vcpkg install sdl2 --triplet x64-windows
         #get-content CMakeLists.txt | %{$_ -replace "REQUIRED COMPONENTS SDL2-static","CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_FIND_DEBUG_MODE=1
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/vcpkg/installed/x64-windows/"
         cmake --build build
         #ls -al build
         #mkdir uploads
