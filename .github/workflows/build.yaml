@@ -38,10 +38,10 @@ jobs:
       run: git config --global --add safe.directory '*'
     - name: Install Deps ${{ matrix.name }}
       run: sudo apt install libsdl2-dev
-      if: ${{ matrix.name == linux }}
+      if: ${{ matrix.name == 'linux' }}
     - name: Install Deps ${{ matrix.name }}
       run: .\vcpkg\vcpkg install sdl2:x64-windows
-      if: ${{ matrix.name == windows }}    
+      if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
         cmake -H. -Bbuild
