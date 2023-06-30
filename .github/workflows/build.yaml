@@ -52,11 +52,11 @@ jobs:
         git clone https://github.com/microsoft/vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
         .\vcpkg\vcpkg install sdl2 --triplet x64-windows
-        get-content CMakeLists.txt | %{$_ -replace "SDL2 REQUIRED","SDL2 CONFIG REQUIRED"}
+        #get-content CMakeLists.txt | %{$_ -replace "SDL2 REQUIRED","SDL2 CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_FIND_PACKAGE_PREFER_CONFIG=TRUE
         cmake --build build
         #ls -al build
         #mkdir uploads
