@@ -12,18 +12,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: [linux, switch, macos] #-latest] #,windows-latest,macos-latest]
+        name: [windows] # [linux, switch, macos] 
         include:
-          - name: linux
-            os: ubuntu-latest
-          - name: switch
-            os: ubuntu-latest
-            container: devkitpro/devkita64:latest
-            toolchain: /opt/devkitpro/cmake/Switch.cmake
-          #- os: windows-latest
-          #  name: windows
-          - os: macos-latest
-            name: macos
+          #- name: linux
+          #  os: ubuntu-latest
+          #- name: switch
+          #  os: ubuntu-latest
+          #  container: devkitpro/devkita64:latest
+          #  toolchain: /opt/devkitpro/cmake/Switch.cmake
+          - os: windows-latest
+            name: windows
+          #- os: macos-latest
+          #  name: macos
 
     runs-on: ${{ matrix.os }}
     container:
