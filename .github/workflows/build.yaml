@@ -63,7 +63,8 @@ jobs:
         #cp build/sm* uploads
         #cp sm.ini uploads
         #ls -al uploads
-        
+      env:
+        VCPKG_ROOT: "${{github.workspace}}/vcpkg"
     #- name: Upload sm
     #  uses: actions/upload-artifact@v3
     #  with:
