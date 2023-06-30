@@ -18,6 +18,7 @@ jobs:
             os: ubuntu-latest
           - name: switch
             os: ubuntu-latest
+            container: devkitpro/devkita64:latest
           #- os: windows-latest
           #  name: windows
           #- os: macos-latest
@@ -25,8 +26,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     container:
-      image: devkitpro/devkita64:latest
-    if: ${{ matrix.name == switch }}
+      image: ${{ matrix.container }}
+      
     steps:
     - uses: actions/checkout@v3
       with:
