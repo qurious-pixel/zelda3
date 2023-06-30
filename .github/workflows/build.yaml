@@ -51,7 +51,7 @@ jobs:
       run: |
         git clone https://github.com/microsoft/vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg install sdl2:x64-windows
+        .\vcpkg\vcpkg install sdl2:x64-windows-static
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
