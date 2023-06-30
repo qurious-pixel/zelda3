@@ -44,6 +44,9 @@ jobs:
       run: sudo apt install libsdl2-dev
       if: ${{ matrix.name == 'linux' }}
     - name: Install Deps ${{ matrix.name }}
+      run: brew install SDL2
+      if: ${{ matrix.name == 'macos' }}
+    - name: Install Deps ${{ matrix.name }}
       run: .\vcpkg\vcpkg install sdl2:x64-windows
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
