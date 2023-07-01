@@ -50,13 +50,14 @@ jobs:
     - name: Install Deps windows
       run: |
         git clone https://github.com/microsoft/vcpkg
+        git clone https://github.com/aminosbh/sdl2-cmake-modules cmake/sdl2
         .\vcpkg\bootstrap-vcpkg.bat
         .\vcpkg\vcpkg install sdl2 --triplet x64-windows
         #get-content CMakeLists.txt | %{$_ -replace "REQUIRED COMPONENTS SDL2-static","CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_PREFIX_PATH="D:\a\zelda3\zelda3\vcpkg\packages\sdl2_x64-windows\share\sdl2" -DSDL2_DIR="D:\a\zelda3\zelda3\vcpkg\installed\x64-windows\share\sdl2"
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_MODULE_PATH="D:\a\zelda3\zelda3\cmake\sdl2" #-DSDL2_DIR="D:\a\zelda3\zelda3\vcpkg\installed\x64-windows\share\sdl2"
         cmake --build build
         #ls -al build
         #mkdir uploads
