@@ -57,7 +57,7 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_MODULE_PATH="D:/a/zelda3/zelda3/cmake/sdl2" #-DSDL2_DIR="D:\a\zelda3\zelda3\vcpkg\installed\x64-windows\share\sdl2"
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_MODULE_PATH="D:/a/zelda3/zelda3/cmake/sdl2" -DSDL2_DIR="D:/a/zelda3/zelda3/vcpkg/installed/x64-windows/share/sdl2"
         cmake --build build
         #ls -al build
         #mkdir uploads
