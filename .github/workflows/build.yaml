@@ -52,7 +52,7 @@ jobs:
         git clone https://github.com/microsoft/vcpkg
         git clone https://github.com/aminosbh/sdl2-cmake-modules cmake/sdl2
         .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg install sdl2:x64-windows-static
+        .\vcpkg\vcpkg install sdl2:x64-windows
         #get-content CMakeLists.txt | %{$_ -replace "REQUIRED COMPONENTS SDL2-static","CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
