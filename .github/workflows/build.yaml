@@ -41,13 +41,13 @@ jobs:
         git config --global --add safe.directory '*'
         sed -i 's/3.22/3.18/g' CMakeLists.txt
       if: ${{ matrix.name == 'switch' }}
-    - name: Install Deps ${{ matrix.name }}
+    - name: Install Deps linux
       run: sudo apt install libsdl2-dev
       if: ${{ matrix.name == 'linux' }}
-    - name: Install Deps ${{ matrix.name }}
+    - name: Install Deps macos
       run: brew install SDL2
       if: ${{ matrix.name == 'macos' }}
-    - name: Install Deps ${{ matrix.name }}
+    - name: Install Deps windows
       run: |
         git clone https://github.com/microsoft/vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
@@ -56,7 +56,7 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/vcpkg/packages/sdl2_x64-windows/share/sdl2"  -DSDL2_DIR="D:/a/zelda3/zelda3/vcpkg/installed/x64-windows/share/sdl2"
+        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/vcpkg/packages/sdl2_x64-windows/share/sdl2"  #-DSDL2_DIR="D:/a/zelda3/zelda3/vcpkg/installed/x64-windows/share/sdl2"
         cmake --build build
         #ls -al build
         #mkdir uploads
