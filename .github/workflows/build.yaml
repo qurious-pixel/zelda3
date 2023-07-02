@@ -50,7 +50,8 @@ jobs:
     - name: Install Deps windows
       run: |
         git clone https://github.com/microsoft/vcpkg
-        git clone https://github.com/aminosbh/sdl2-cmake-modules cmake/sdl2
+        #git clone https://github.com/aminosbh/sdl2-cmake-modules cmake/sdl2
+        git clone https://github.com/trenki2/SDL2Test sdl2
         .\vcpkg\bootstrap-vcpkg.bat
         .\vcpkg\vcpkg install sdl2:x64-windows
         #get-content CMakeLists.txt | %{$_ -replace "REQUIRED COMPONENTS SDL2-static","CONFIG REQUIRED"}
