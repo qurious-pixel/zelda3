@@ -8,78 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: LaserEyess/sm
-        ref: cmake
-        submodules: recursive
-    - name: Install deps
-      run: sudo apt install libsdl2-dev
-    - name: Build sm
-      run: |
-        cmake -Bbuild
-        cmake --build build
-        mkdir uploads
-        cp build/sm uploads
-        cp sm.ini uploads
-    - name: Upload sm
-      uses: actions/upload-artifact@v3
-      with:
-        name: sm-linux
-        path: uploads/
-        
-  build-switch:
-    runs-on: ubuntu-latest
-    container:
-      image: devkitpro/devkita64:latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: LaserEyess/sm
-        ref: cmake
-        submodules: recursive
-    - name: Install deps
-      run: |
-        git config --global --add safe.directory '*'
-        sed -i 's/3.22/3.18/g' CMakeLists.txt
-    - name: Build sm
-      run: |
-        cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
-        cmake --build build
-        mkdir uploads
-        cp build/sm.nro uploads
-        cp sm.ini uploads
-    - name: Upload sm
-      uses: actions/upload-artifact@v3
-      with:
-        name: sm-switch
-        path: uploads/
-        
-  build-macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: LaserEyess/sm
-        ref: cmake
-        submodules: recursive
-    - name: Install deps
-      run: brew install SDL2
-    - name: Build sm
-      run: |
-        cmake -Bbuild
-        cmake --build build
-        mkdir uploads
-        cp build/sm uploads
-        cp sm.ini uploads
-    - name: Upload sm
-      uses: actions/upload-artifact@v3
-      with:
-        name: sm-macos
-        path: uploads/
+
         
   build-windows:
     runs-on: windows-latest
@@ -97,7 +26,7 @@ jobs:
         tar -xf SDL2.zip
     - name: Build sm
       run: |
-        cmake -Bbuild -DCMAKE_PREFIX_PATH=%cd%/SDL2-${{ env.sdl }}
+        cmake -Bbuild -DCMAKE_PREFIX_PATH=%CD%/SDL2-${{ env.sdl }}
         cmake --build build
         mkdir uploads
         copy build\Debug\sm.exe uploads
