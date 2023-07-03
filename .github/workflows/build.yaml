@@ -55,7 +55,7 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild ${{ matrix.toolchain }}${{ matrix.sdl }}
+        cmake -Bbuild ${{ matrix.toolchain }}${{ matrix.sdl }}
         cmake --build build
     - name: Prepare Uploads
       run: |
