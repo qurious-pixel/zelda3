@@ -23,7 +23,7 @@ jobs:
           - os: windows-latest
             name: windows
             sdl: 2.28.1
-            toolchain: -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-"
+            toolchain: -DCMAKE_PREFIX_PATH=D:/a/zelda3/zelda3/SDL2-
           - os: macos-latest
             name: macos
 
@@ -62,13 +62,13 @@ jobs:
         mkdir uploads
         cp build/sm* uploads
         cp sm.ini uploads
-        copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
       if: ${{ matrix.name != 'windows' }}
     - name: Prepare Uploads
       run: |
         mkdir uploads
         copy build\Debug\sm.exe uploads
         copy sm.ini uploads
+        copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
       if: ${{ matrix.name == 'windows' }}
     - name: Upload sm
       uses: actions/upload-artifact@v3
