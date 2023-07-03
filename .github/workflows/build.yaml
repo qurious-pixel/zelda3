@@ -22,7 +22,7 @@ jobs:
           #  toolchain: /opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
-          #  toolchain: D:/a/zelda3/zelda3/vcpkg/scripts/buildsystems/vcpkg.cmake
+            toolchain: PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-2.28.1"
           #- os: macos-latest
           #  name: macos
 
@@ -61,7 +61,7 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-2.28.1"
+        cmake -S . -Bbuild -DCMAKE_${{ matrix.toolchain }}
         cmake --build build
         #ls -al build
         #mkdir uploads
