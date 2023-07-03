@@ -26,7 +26,7 @@ jobs:
         tar -xf SDL2.zip
     - name: Build sm
       run: |
-        cmake -Bbuild -DCMAKE_PREFIX_PATH=%CD%/SDL2-${{ env.sdl }}
+        cmake -Bbuild -DCMAKE_PREFIX_PATH=${{github.workspace}}/SDL2-${{ env.sdl }}
         cmake --build build
         mkdir uploads
         copy build\Debug\sm.exe uploads
