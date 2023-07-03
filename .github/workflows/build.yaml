@@ -93,7 +93,7 @@ jobs:
         submodules: recursive
     - name: Install deps
       run: |
-        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ matrix.sdl }}-VC.zip
+        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ env.sdl }}-VC.zip
         tar -xf SDL2.zip
     - name: Build sm
       run: |
