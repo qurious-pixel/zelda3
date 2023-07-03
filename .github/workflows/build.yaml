@@ -22,7 +22,8 @@ jobs:
             toolchain: -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
-            toolchain: -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-2.28.1"
+            sdl: 2.28.1
+            toolchain: -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-${{ matrix.sdl }}"
           - os: macos-latest
             name: macos
 
@@ -49,7 +50,7 @@ jobs:
       if: ${{ matrix.name == 'macos' }}
     - name: Install Deps windows
       run: |
-        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.28.1-VC.zip
+        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ matrix.sdl }}-VC.zip
         tar -xf SDL2.zip
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
@@ -61,6 +62,7 @@ jobs:
         mkdir uploads
         cp build/sm* uploads
         cp sm.ini uploads
+        copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
       if: ${{ matrix.name != 'windows' }}
     - name: Prepare Uploads
       run: |
