@@ -8,70 +8,103 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-sm:
-    strategy:
-      fail-fast: false       
-      matrix:
-        name: [windows, linux, switch, macos] 
-        include:
-          - name: linux
-            os: ubuntu-latest
-          - name: switch
-            os: ubuntu-latest
-            container: devkitpro/devkita64:latest
-            toolchain: -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
-          - os: windows-latest
-            name: windows
-            sdl: 2.28.1
-            toolchain: -DCMAKE_PREFIX_PATH=D:/a/zelda3/zelda3/SDL2-
-          - os: macos-latest
-            name: macos
-
-    runs-on: ${{ matrix.os }}
-    container:
-      image: ${{ matrix.container }}
-      
+  build-ubuntu:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
         repository: LaserEyess/sm
         ref: cmake
         submodules: recursive
-    - name: Fix dubious ownership error
+    - name: Install deps
+      run: sudo apt install libsdl2-dev
+    - name: Build sm
+      run: |
+        cmake -Bbuild
+        cmake --build build
+        mkdir uploads
+        cp build/sm uploads
+        cp sm.ini uploads
+    - name: Upload sm
+      uses: actions/upload-artifact@v3
+      with:
+        name: sm-linux
+        path: uploads/
+        
+  build-switch:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkita64:latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: LaserEyess/sm
+        ref: cmake
+        submodules: recursive
+    - name: Install deps
       run: |
         git config --global --add safe.directory '*'
         sed -i 's/3.22/3.18/g' CMakeLists.txt
-      if: ${{ matrix.name == 'switch' }}
-    - name: Install Deps linux
-      run: sudo apt install libsdl2-dev
-      if: ${{ matrix.name == 'linux' }}
-    - name: Install Deps macos
+    - name: Build sm
+      run: |
+        cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
+        cmake --build build
+        mkdir uploads
+        cp build/sm.nro uploads
+        cp sm.ini uploads
+    - name: Upload sm
+      uses: actions/upload-artifact@v3
+      with:
+        name: sm-switch
+        path: uploads/
+        
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: LaserEyess/sm
+        ref: cmake
+        submodules: recursive
+    - name: Install deps
       run: brew install SDL2
-      if: ${{ matrix.name == 'macos' }}
-    - name: Install Deps windows
+    - name: Build sm
+      run: |
+        cmake -Bbuild
+        cmake --build build
+        mkdir uploads
+        cp build/sm uploads
+        cp sm.ini uploads
+    - name: Upload sm
+      uses: actions/upload-artifact@v3
+      with:
+        name: sm-macos
+        path: uploads/
+        
+  build-windows:
+    runs-on: ubuntu-latest
+    env:
+      sdl: 2.28.1
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: LaserEyess/sm
+        ref: cmake
+        submodules: recursive
+    - name: Install deps
       run: |
         curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ matrix.sdl }}-VC.zip
         tar -xf SDL2.zip
-      if: ${{ matrix.name == 'windows' }}    
-    - name: Build ${{ matrix.name }} sm
+    - name: Build sm
       run: |
-        cmake -Bbuild ${{ matrix.toolchain }}${{ matrix.sdl }}
+        cmake -Bbuild -DCMAKE_PREFIX_PATH=%cd%/SDL2-${{ env.sdl }}
         cmake --build build
-    - name: Prepare Uploads
-      run: |
-        mkdir uploads
-        cp build/sm* uploads
-        cp sm.ini uploads
-      if: ${{ matrix.name != 'windows' }}
-    - name: Prepare Uploads
-      run: |
         mkdir uploads
         copy build\Debug\sm.exe uploads
         copy sm.ini uploads
         copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
-      if: ${{ matrix.name == 'windows' }}
     - name: Upload sm
       uses: actions/upload-artifact@v3
       with:
-        name: sm-${{ matrix.name }}
+        name: sm-windows
         path: uploads/
