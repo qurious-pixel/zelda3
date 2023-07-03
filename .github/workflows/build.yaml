@@ -82,7 +82,7 @@ jobs:
         path: uploads/
         
   build-windows:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       sdl: 2.28.1
     steps:
