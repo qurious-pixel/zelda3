@@ -12,19 +12,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: [windows] # [linux, switch, macos] 
+        name: [windows, linux, switch, macos] 
         include:
-          #- name: linux
-          #  os: ubuntu-latest
-          #- name: switch
-          #  os: ubuntu-latest
-          #  container: devkitpro/devkita64:latest
-          #  toolchain: TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
+          - name: linux
+            os: ubuntu-latest
+          - name: switch
+            os: ubuntu-latest
+            container: devkitpro/devkita64:latest
+            toolchain: TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
             toolchain: PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-2.28.1"
-          #- os: macos-latest
-          #  name: macos
+          - os: macos-latest
+            name: macos
 
     runs-on: ${{ matrix.os }}
     container:
@@ -49,24 +49,25 @@ jobs:
       if: ${{ matrix.name == 'macos' }}
     - name: Install Deps windows
       run: |
-        curl.exe -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.28.1-VC.zip
+        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.28.1-VC.zip
         tar -xf SDL2.zip
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
         cmake -S . -Bbuild -DCMAKE_${{ matrix.toolchain }}
         cmake --build build
-        #ls -al build
-        #mkdir uploads
-        #cp build/sm* uploads
-        #cp sm.ini uploads
-        #ls -al uploads
+    - name: Prepare Uploads
+      run: |
+        mkdir uploads
+        cp build/sm* uploads
+        cp sm.ini uploads
+      if: ${{ matrix.name != 'windows' }}
     - name: Prepare Uploads
       run: |
         mkdir uploads
         copy build\Debug\sm.exe uploads
         copy sm.ini uploads
-      
+      if: ${{ matrix.name == 'windows' }}
     - name: Upload sm
       uses: actions/upload-artifact@v3
       with:
