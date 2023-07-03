@@ -10,9 +10,7 @@ on:
 jobs:
   build-sm:
     strategy:
-      fail-fast: false
-      env:
-        sdl: 2.28.1
+      fail-fast: false       
       matrix:
         name: [windows, linux, switch, macos] 
         include:
@@ -24,7 +22,8 @@ jobs:
             toolchain: -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
-            toolchain: -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-${{ env.sdl }}"
+            sdl: 2.28.1
+            toolchain: -DCMAKE_PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-"
           - os: macos-latest
             name: macos
 
@@ -51,19 +50,19 @@ jobs:
       if: ${{ matrix.name == 'macos' }}
     - name: Install Deps windows
       run: |
-        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ env.sdl }}-VC.zip
+        curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ matrix.sdl }}-VC.zip
         tar -xf SDL2.zip
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
-        cmake -S . -Bbuild ${{ matrix.toolchain }}
+        cmake -S . -Bbuild ${{ matrix.toolchain }}${{ matrix.sdl }}
         cmake --build build
     - name: Prepare Uploads
       run: |
         mkdir uploads
         cp build/sm* uploads
         cp sm.ini uploads
-        copy SDL2-${{ env.sdl }}/lib/x64/SDL2.dll uploads
+        copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
       if: ${{ matrix.name != 'windows' }}
     - name: Prepare Uploads
       run: |
