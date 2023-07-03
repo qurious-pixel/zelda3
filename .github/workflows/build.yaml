@@ -102,7 +102,7 @@ jobs:
         mkdir uploads
         copy build\Debug\sm.exe uploads
         copy sm.ini uploads
-        copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
+        copy SDL2-${{ env.sdl }}/lib/x64/SDL2.dll uploads
     - name: Upload sm
       uses: actions/upload-artifact@v3
       with:
