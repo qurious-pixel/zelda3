@@ -44,7 +44,7 @@ jobs:
     - name: Install deps
       run: |
         git config --global --add safe.directory '*'
-        sed -i 's/3.22/3.18/g' CMakeLists.txt
+        #sed -i 's/3.22/3.18/g' CMakeLists.txt
     - name: Build sm
       run: |
         cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
