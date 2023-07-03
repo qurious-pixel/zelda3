@@ -19,7 +19,7 @@ jobs:
           #- name: switch
           #  os: ubuntu-latest
           #  container: devkitpro/devkita64:latest
-          #  toolchain: /opt/devkitpro/cmake/Switch.cmake
+          #  toolchain: TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
           - os: windows-latest
             name: windows
             toolchain: PREFIX_PATH="D:/a/zelda3/zelda3/SDL2-2.28.1"
@@ -51,13 +51,6 @@ jobs:
       run: |
         curl.exe -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.28.1-VC.zip
         tar -xf SDL2.zip
-        dir
-        #git clone https://github.com/microsoft/vcpkg
-        #git clone https://github.com/aminosbh/sdl2-cmake-modules cmake/sdl2
-        #git clone https://github.com/trenki2/SDL2Test sdl2
-        #.\vcpkg\bootstrap-vcpkg.bat
-        #.\vcpkg\vcpkg install sdl2:x64-windows
-        #get-content CMakeLists.txt | %{$_ -replace "REQUIRED COMPONENTS SDL2-static","CONFIG REQUIRED"}
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
@@ -68,8 +61,14 @@ jobs:
         #cp build/sm* uploads
         #cp sm.ini uploads
         #ls -al uploads
-    #- name: Upload sm
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: sm-${{ matrix.name }}
-    #    path: uploads/
+    - name: Prepare Uploads
+      run: |
+        mkdir uploads
+        copy build\Debug\sm.exe uploads
+        copy sm.ini uploads
+      
+    - name: Upload sm
+      uses: actions/upload-artifact@v3
+      with:
+        name: sm-${{ matrix.name }}
+        path: uploads/
