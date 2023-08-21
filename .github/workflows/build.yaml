@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: zelda3-android
+          repository: Waterdish/zelda3-android
           ref: main
           submodules: recursive
       - name: Set up cache
