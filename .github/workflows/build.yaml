@@ -8,30 +8,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-unix:
-    name: on ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - name: Linux
-          os: ubuntu-latest
-        - name: Mac
-          os: macos-latest
+  android:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install dependencies for Linux
-      if: ${{ matrix.name == 'Linux' }}
-      run: |
-        sudo apt update
-        sudo apt install -y libsdl2-dev
-    - name: Install dependencies for Mac
-      if: ${{ matrix.name == 'Mac' }}
-      run: |
-        brew install sdl2 coreutils
-    - name: Build
-      run: make -j$(nproc) zelda3
+      - uses: actions/checkout@v3
+        with:
+          repository: zelda3-android
+          ref: main
+          submodules: recursive
+      - name: Set up cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.ccache
+          key: ${{ runner.os }}-android-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-android-
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ccache apksigner glslang-dev glslang-tools libsdl2-dev
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+      - name: Build
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
+
+          
