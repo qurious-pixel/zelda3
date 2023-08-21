@@ -40,6 +40,11 @@ jobs:
           ./gradlew assembleRelease
       - name: Review
         run: |
-          ls -a app/build/outputs/apk/release/* || true
-          ls app/build/outputs/apk/**/release/* || true
-
+          mkdir artifacts
+          mv app/build/outputs/apk/release/app-release-unsigned.apk artifacts/zelda3.apk
+          
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: zelda3-android
+          path: artifacts/
