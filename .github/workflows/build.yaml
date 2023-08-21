@@ -38,5 +38,8 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew assembleRelease
+      - name: Review
+        run: |
+          ls -a app/build/outputs/apk/release/* || true
+          ls app/build/outputs/apk/**/release/* || true
 
-          
