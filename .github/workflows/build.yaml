@@ -32,6 +32,7 @@ jobs:
         cd src/platform/switch
         #sed "s/smw/${{ matrix.rom }}/g" Makefile > Makefile.${{ matrix.rom }}
         #make -f Makefile.${{ matrix.rom }}
+        CFILES=$(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/snes/*.c $(SRC_DIR)/platform/switch/src/*.c $(SRC_DIR)/../smb1/*.c $(SRC_DIR)/../smbll/*.c) $(SRC_DIR)/../third_party/gl_core/gl_core_3_1.c
         make
         cd -
         ls -al src/platform/switch
