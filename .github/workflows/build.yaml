@@ -39,7 +39,7 @@ jobs:
         ls -al src/platform/switch
         cp src/platform/switch/${{ matrix.rom }}.nro uploads/${{ matrix.rom }}
         cp src/platform/switch/${{ matrix.rom }}.nacp uploads/${{ matrix.rom }}
-        cp src/platform/switch/smw.ini uploads/${{ matrix.rom }}
+        cp src/platform/switch/sm.ini uploads/${{ matrix.rom }}
         
     - name: Upload ${{ matrix.rom }}-switch
       uses: actions/upload-artifact@v3
