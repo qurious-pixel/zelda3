@@ -12,14 +12,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rom: [smw] #,smb1,smbll]
+        rom: [sm] #,smb1,smbll]
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkita64:latest
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: snesrev/smw
+        repository: snesrev/sm
         ref: main
         submodules: recursive
     - name: Fix dubious ownership error
