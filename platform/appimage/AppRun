@@ -151,27 +151,35 @@ echo "$SMAS"
 "${SCRIPT_PATH}"/bin/smw "$SMAS"
 }
 
-export ZENCHOICE="$(zenity_select)"
+if [[ -n "$NOGUI" ]]; then
+	export ZENCHOICE="$@"
+else
+	export ZENCHOICE="$(zenity_select)"
+fi
 
 case "$ZENCHOICE" in
-	"Zelda3")
+	"Zelda3"|"z3")
 		echo Zelda3
 		zelda_extract
 		;;
-	"Super Metroid")
+	"Super Metroid"|"sm")
 		echo "Super Metroid"
 		sm_extract
 		;;
-	"Super Mario World")
+	"Super Mario World"|"smw")
 		echo "Super Mario World"
 		smw_extract
 		;;
-	"Super Mario All-Stars")
+	"Super Mario All-Stars"|"smas")
 		echo "Super Mario All-Stars"
-		smas_extract 
+		smas_extract
 		;;
 	*)
-		echo "No Choice"
+		echo "Choices are:"
+		echo '"Zelda3" or "z3"'
+		echo '"Super Metroid" or "sm"'
+		echo '"Super Mario World" or "smw"'
+		echo '"Super Mario All-Stars" or "smas"'
 		;;
 esac
 
