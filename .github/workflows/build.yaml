@@ -21,7 +21,7 @@ jobs:
     - name: Build Zelda3 switch
       run: |
         cd platform/switch
-        make
+        make V=1
         cd -
         mkdir uploads
         ls -al platform/switch
