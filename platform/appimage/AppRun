@@ -20,7 +20,7 @@ zenity_select(){
 extract_language () {
 	sed -i 's/# Language/Language/g' "$ASSETDIR"/zelda3.ini
 	sed -i "s/Language = .*/Language = $1/g" "$ASSETDIR"/zelda3.ini
-	"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Translating..."
+	"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Translating..."
 	"${SCRIPT_PATH}"/bin/python3 restool.py --extract-dialogue -r translate.sfc
 	"${SCRIPT_PATH}"/bin/python3 restool.py --languages="$1"
 }
@@ -28,7 +28,7 @@ extract_language () {
 zelda_extract () {
 if [ ! -e zelda3_assets.dat ]; then
 	if [ ! -e "$ZELDA_ROM" ]; then
-        "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+        "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Missing ROM file"
         exit
 	else
 		export ASSETDIR="$(mktemp -d /tmp/assets-XXXXX)"
@@ -38,7 +38,7 @@ if [ ! -e zelda3_assets.dat ]; then
 			ln -s "$PWD"/"$LANG_ROM" "$ASSETDIR"/tables/translate.sfc
 		fi
 		cd "$ASSETDIR"/tables
-		"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Extracting Assets"
+		"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Extracting Assets"
 		"${SCRIPT_PATH}"/bin/python3 restool.py --extract-from-rom -r zelda3.sfc
 			if [ -e "translate.sfc" ]; then
 			case "$LANG_ROM_HASH" in         
@@ -76,7 +76,7 @@ if [ ! -e zelda3_assets.dat ]; then
     		    extract_language "sv"
     			;;
     			*)
-    			"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Unknown ROM file"
+    			"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Unknown ROM file"
     			exit
     			;;
 			esac
@@ -97,7 +97,7 @@ fi
 
 sm_extract () {
 if [ ! -e "$SM_ROM" ]; then
-    "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+    "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Missing ROM file"
     exit
 fi
 if [ ! -e sm.ini ]; then
@@ -109,7 +109,7 @@ fi
 
 smw_extract () {
 if [ ! -e "$SMW_ROM" ]; then
-    "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+    "${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Missing ROM file"
     exit
 fi
 if [ ! -e smw.ini ]; then
@@ -123,7 +123,7 @@ smas_extract () {
 export SMASF=$(zenity --list --radiolist --title "SNESREV" --column "Select" --column "Menu Item" FALSE "SMB1" FALSE "SMLL")
 if [ ! -e smb1.sfc ] || [ ! -e smbll.sfc ]; then
 	if [ ! -e "$SMAS_ROM" ]; then
-		"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../zelda3.png "Missing ROM file"
+		"${SCRIPT_PATH}"/bin/notify-send -i "${SCRIPT_PATH}"/../snesrev.png "Missing ROM file"
     	exit
     fi
 	export ASSETDIR="$(mktemp -d /tmp/assets-XXXXX)"
