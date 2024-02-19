@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Zelda3
+Name=snesrev
 Exec=zelda3
 Terminal=false
 Type=Application
-Icon=zelda3
-Comment=Zelda3 port
+Icon=snesrev
+Comment=snesrev ports
 Categories=Game;
-StartupWMClass=zelda3;
+StartupWMClass=snesrev;
