@@ -9,7 +9,7 @@ chmod +x linuxdeploy-plugin-conda.sh
 $LINUXDEPLOY --appdir=AppDir
 cp {zelda3,sm,smw} AppDir/usr/bin/
 cp /usr/bin/zenity AppDir/usr/bin/
-cp platform/appimage/{AppRun,zelda3.desktop,zelda3.png} AppDir
+cp platform/appimage/{AppRun,snesrev.desktop,snesrev.png} AppDir
 chmod +x AppDir/AppRun
 chmod +x AppDir/usr/bin/{zelda3,sm,smw}
 mkdir -p AppDir/usr/assets
@@ -18,4 +18,4 @@ cp {sm.ini,smw.ini,zelda3.ini} AppDir/usr/assets/
 cp /usr/bin/notify-send AppDir/usr/bin/
 $LINUXDEPLOY --appdir=AppDir --plugin conda --output appimage
 mkdir uploads
-mv Zelda*.AppImage uploads/Launcher.AppImage
+mv snesrev*.AppImage uploads/Launcher.AppImage
