@@ -41,7 +41,7 @@ jobs:
       run: |
         git config --global --add safe.directory '*'
         sed -i 's/3.22/3.18/g' CMakeLists.txt
-        dkp-pacman -Syu
+        dkp-pacman -Syu --noconfirm
       if: ${{ matrix.name == 'switch' }}
     - name: Install Deps linux
       run: sudo apt install libsdl2-dev
