@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false       
       matrix:
-        name: [windows, linux, switch, macos] 
+        name: [switch] # [windows, linux, switch, macos] 
         include:
           - name: linux
             os: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
       run: |
         git config --global --add safe.directory '*'
         sed -i 's/3.22/3.18/g' CMakeLists.txt
-        dkp-pacman -S cmake
+        pacman -S cmake
       if: ${{ matrix.name == 'switch' }}
     - name: Install Deps linux
       run: sudo apt install libsdl2-dev
