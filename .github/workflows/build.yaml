@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false       
       matrix:
-        name: [switch] # [windows, linux, switch, macos] 
+        name: [windows, linux, switch, macos] 
         include:
           - name: linux
             os: ubuntu-latest
@@ -56,6 +56,7 @@ jobs:
       if: ${{ matrix.name == 'windows' }}    
     - name: Build ${{ matrix.name }} sm
       run: |
+        cmake --version
         cmake -Bbuild ${{ matrix.toolchain }}${{ matrix.sdl }}
         cmake --build build
     - name: Prepare Uploads
