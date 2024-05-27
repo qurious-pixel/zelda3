@@ -34,7 +34,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: LaserEyess/sm
+        repository: LaserEyess/sm_rewrite
         ref: cmake
         submodules: recursive
     - name: Fix dubious ownership error
