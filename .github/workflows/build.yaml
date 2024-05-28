@@ -12,7 +12,8 @@ jobs:
     strategy:
       fail-fast: false       
       matrix:
-        name: [windows, linux, switch, macos] 
+        name: [windows, linux, switch, macos]
+        repo: [sm, sm_rewrite]
         include:
           - name: linux
             os: ubuntu-latest
@@ -32,15 +33,15 @@ jobs:
       image: ${{ matrix.container }}
       
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
-        repository: LaserEyess/sm_rewrite
+        repository: LaserEyess/${{ matrix.repo }}
         ref: cmake
         submodules: recursive
     - name: Fix dubious ownership error
       run: |
         git config --global --add safe.directory '*'
-        sed -i 's/3.21/3.18/g' CMakeLists.txt
+        sed -i 's/3.2[12]/3.18/g' CMakeLists.txt
       if: ${{ matrix.name == 'switch' }}
     - name: Install Deps linux
       run: sudo apt install libsdl2-dev
@@ -53,7 +54,7 @@ jobs:
         curl.exe --silent -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-${{ matrix.sdl }}-VC.zip
         tar -xf SDL2.zip
       if: ${{ matrix.name == 'windows' }}    
-    - name: Build ${{ matrix.name }} sm
+    - name: Build ${{ matrix.name }} ${{ matrix.repo }}
       run: |
         cmake --version
         cmake -Bbuild ${{ matrix.toolchain }}${{ matrix.sdl }}
@@ -72,7 +73,7 @@ jobs:
         copy SDL2-${{ matrix.sdl }}/lib/x64/SDL2.dll uploads
       if: ${{ matrix.name == 'windows' }}
     - name: Upload sm
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: sm-${{ matrix.name }}
+        name: ${{ matrix.repo }}-${{ matrix.name }}
         path: uploads/
