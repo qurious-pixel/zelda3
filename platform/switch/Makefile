@@ -23,8 +23,8 @@ PROJECT_ROOT  := $(abspath $(CURDIR)//..)/..
 # Explicitly map source folders under the project root
 SOURCES       := $(PROJECT_ROOT)/src \
                  $(PROJECT_ROOT)/src/snes \
-                 $(PROJECT_ROOT)/src/third_party/gl_core \
-                 $(PROJECT_ROOT)/src/third_party/opus-1.3.1-stripped
+                 $(PROJECT_ROOT)/third_party/gl_core \
+                 $(PROJECT_ROOT)/third_party/opus-1.3.1-stripped
 
 # Find the explicit C files using absolute paths
 CFILES        := $(wildcard $(PROJECT_ROOT)/src/*.c) \
