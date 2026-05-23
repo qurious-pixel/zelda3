@@ -13,7 +13,7 @@ jobs:
     container:
       image: devkitpro/devkita64:latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         submodules: recursive
     - name: Fix dubious ownership error
@@ -29,7 +29,7 @@ jobs:
         #cp platform/switch/zelda3.ini uploads
         
     - name: Upload AppImage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       with:
         name: Zelda3-switch
         path: uploads/
