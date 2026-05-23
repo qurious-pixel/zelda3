@@ -18,7 +18,7 @@ TARGET        := zelda3
 BUILD         := bin
 
 # Define the absolute path to your project root cleanly
-PROJECT_ROOT  := $(realpath $(CURDIR)/../..)
+PROJECT_ROOT  := $(abspath $(CURDIR)/../..)
 
 # Explicitly map source folders under the project root
 SOURCES       := $(PROJECT_ROOT)/src \
@@ -27,7 +27,8 @@ SOURCES       := $(PROJECT_ROOT)/src \
                  $(PROJECT_ROOT)/src/third_party/opus-1.3.1-stripped
 
 # Find the explicit C files using absolute paths
-CFILES        := $(wildcard $(PROJECT_ROOT)/src/*.c $(PROJECT_ROOT)/src/snes/*.c) \
+CFILES        := $(wildcard $(PROJECT_ROOT)/src/*.c) \
+                 $(wildcard $(PROJECT_ROOT)/src/snes/*.c) \
                  $(PROJECT_ROOT)/src/third_party/gl_core/gl_core_3_1.c \
                  $(PROJECT_ROOT)/src/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
 
