@@ -170,4 +170,16 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 
 -include $(DEPENDS)
 
+#---------------------------------------------------------------------------------
+# Explicit compilation rules for deep third-party dependencies
+#---------------------------------------------------------------------------------
+gl_core_3_1.o: $(PROJECT_ROOT)/src/third_party/gl_core/gl_core_3_1.c
+	@echo $(notdir $<)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+opus_decoder_amalgam.o: $(PROJECT_ROOT)/src/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
+	@echo $(notdir $<)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 endif
+#---------------------------------------------------------------------------------------
