@@ -17,7 +17,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 TARGET        := zelda3
 BUILD         := bin
 
-# Define the absolute path to your project root cleanly
+# Define the absolute path to your project root cleanly using subshell expansion
 PROJECT_ROOT  := $(shell cd $(CURDIR)/../.. && pwd)
 
 # Explicitly map source folders under the project root
@@ -143,6 +143,16 @@ clean:
 else
 .PHONY:	all
 
+# Explicit compilation rules for deep third-party dependencies must live inside 
+# the inner execution phase loop block to successfully link targets
+gl_core_3_1.o: $(PROJECT_ROOT)/third_party/gl_core/gl_core_3_1.c
+	@echo $(notdir $<)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+opus_decoder_amalgam.o: $(PROJECT_ROOT)/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
+	@echo $(notdir $<)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 DEPENDS	:=	$(OFILES:.o=.d)
 
 ifeq ($(strip $(APP_JSON)),)
@@ -169,17 +179,6 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 	@$(bin2o)
 
 -include $(DEPENDS)
-
-#---------------------------------------------------------------------------------
-# Explicit compilation rules for deep third-party dependencies
-#---------------------------------------------------------------------------------
-gl_core_3_1.o: $(PROJECT_ROOT)/third_party/gl_core/gl_core_3_1.c
-	@echo $(notdir $<)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-opus_decoder_amalgam.o: $(PROJECT_ROOT)/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
-	@echo $(notdir $<)
-	@$(CC) $(CFLAGS) -c $< -o $@
 
 endif
 #---------------------------------------------------------------------------------------
