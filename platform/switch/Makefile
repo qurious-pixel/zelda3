@@ -29,8 +29,8 @@ SOURCES       := $(PROJECT_ROOT)/src \
 # Find the explicit C files using absolute paths
 CFILES        := $(wildcard $(PROJECT_ROOT)/src/*.c) \
                  $(wildcard $(PROJECT_ROOT)/src/snes/*.c) \
-                 $(PROJECT_ROOT)/src/third_party/gl_core/gl_core_3_1.c \
-                 $(PROJECT_ROOT)/src/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
+                 $(PROJECT_ROOT)/third_party/gl_core/gl_core_3_1.c \
+                 $(PROJECT_ROOT)/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
 
 INCLUDES      := include $(PROJECT_ROOT)/src $(PROJECT_ROOT)/src/snes
 APP_TITLE     := The Legend of Zelda: A Link to the Past
@@ -173,11 +173,11 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 #---------------------------------------------------------------------------------
 # Explicit compilation rules for deep third-party dependencies
 #---------------------------------------------------------------------------------
-gl_core_3_1.o: $(PROJECT_ROOT)/src/third_party/gl_core/gl_core_3_1.c
+gl_core_3_1.o: $(PROJECT_ROOT)/third_party/gl_core/gl_core_3_1.c
 	@echo $(notdir $<)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-opus_decoder_amalgam.o: $(PROJECT_ROOT)/src/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
+opus_decoder_amalgam.o: $(PROJECT_ROOT)/third_party/opus-1.3.1-stripped/opus_decoder_amalgam.c
 	@echo $(notdir $<)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
