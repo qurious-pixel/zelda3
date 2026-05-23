@@ -18,7 +18,7 @@ TARGET        := zelda3
 BUILD         := bin
 
 # Define the absolute path to your project root cleanly
-PROJECT_ROOT  := $(abspath $(CURDIR)/../..)
+PROJECT_ROOT  := $(abspath $(CURDIR)//..)/..
 
 # Explicitly map source folders under the project root
 SOURCES       := $(PROJECT_ROOT)/src \
