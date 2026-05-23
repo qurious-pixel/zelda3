@@ -18,7 +18,8 @@ TARGET        := zelda3
 BUILD         := bin
 
 # Define the absolute path to your project root cleanly using subshell expansion
-PROJECT_ROOT  := $(shell cd $(CURDIR)/../.. && pwd)
+MAKEFILE_DIR  := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+PROJECT_ROOT  := $(abspath $(MAKEFILE_DIR)/../..)
 
 # Explicitly map source folders under the project root
 SOURCES       := $(PROJECT_ROOT)/src \
